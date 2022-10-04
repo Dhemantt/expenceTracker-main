@@ -8,26 +8,26 @@
 </head>
 <body>
     <div class="container", id="first-row">
-        <form id="add-form" >
+        <form id="add-form" action="#" onsubmit="onsignup(event)">
             
                 <label for = 'amount'>Expence Amount</label>
-                <input type="text" id="amount-id" name ='amount'> 
+                <input type="text" id="amountid" name ='amount'> 
                 <label for = 'description'>Description</label>
-                <input type="text" id="description-id" name ='description'>
+                <input type="text" id="descriptionid" name ='description'>
                 <label for = 'catagory'>Catagory</label>
-                <select id="catagory-id" name ='catagory'>
+                <select id="catagoryid" name ='catagory'>
                     <option value="movies">Movies</option>
                     <option value="fuel">Fuel</option>
                     <option value="rent">Rent</option>
                 </select>
 
                 <button class="button1" id ="expenceAdd">Add Expence</button>
-            
         </form>
     </div>
     <div class="sub-container" id="second-row">
         <p>Expence List below </p>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.27.2/axios.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
