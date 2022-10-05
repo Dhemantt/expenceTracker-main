@@ -1,6 +1,7 @@
 var addExpenceList = document.getElementById('second-row') ;
 const itemList = document.getElementById('expenceAdd');
 
+var editingitem = null
 
 // itemList.addEventListener("click" , addItem);
 
@@ -24,19 +25,36 @@ function onsignup(e) {
         newItemCatagory
     }
 
-    //send api post request
-    axios.post('https://crudcrud.com/api/2ddae4226ba84265909b36e19e96148d/ExpenseData', obj)
+    if (editingitem) {
+        id = editingitem
+        axios.put(`https://crudcrud.com/api/924a4d51633144308feb9b9c326cea26/ExpenseData/${id}`,obj)
+        .then((response) => {
+            removeUserFromScreen(id)
+            AdduserToDom(obj)
+            })
+            .catch((err) => {
+                console.log(err);
+            })        
+    }
+    else {
+        axios.post('https://crudcrud.com/api/924a4d51633144308feb9b9c326cea26/ExpenseData', obj)
         .then((response) => {
             AdduserToDom(response.data)
         })
         .catch((err) => {
             console.log(err);
         })
+    }
+    editingitem = null
+    e.target.amountid = '';
+    e.target.descriptionid = "";
+    //send api post request
+    
 }
 
 window.addEventListener("DOMContentLoaded", () => {
     console.log('hiii')
-    axios.get('https://crudcrud.com/api/2ddae4226ba84265909b36e19e96148d/ExpenseData')
+    axios.get('https://crudcrud.com/api/924a4d51633144308feb9b9c326cea26/ExpenseData')
         .then((response) => {
         console.log(response)
         for(let i=0; i<response.data.length; i++){
@@ -60,7 +78,7 @@ function AdduserToDom(user) {
 
 function deleteItem(id) {
     console.log(id);
-    axios.delete(`https://crudcrud.com/api/2ddae4226ba84265909b36e19e96148d/ExpenseData/${id}`)
+    axios.delete(`https://crudcrud.com/api/924a4d51633144308feb9b9c326cea26/ExpenseData/${id}`)
         .then((response) => {
        removeUserFromScreen(id)
     })
@@ -94,22 +112,9 @@ function editItem(id,amount,description,category) {
     const newItemCatagory = document.getElementById('catagoryid')
     newItemCatagory.value = category;
 
-    const userdata = {
-        amount,
-        description,
-        category
-    }
+    editingitem = id
 
     const childnodetobedeleted = document.getElementById(id)
-    console.log(childnodetobedeleted)
-    // addExpenceList.removeChild(childnodetobedeleted);
-    axios.put(`https://crudcrud.com/api/2ddae4226ba84265909b36e19e96148d/ExpenseData/${id}`,userdata)
-        .then((response) => {
-            removeUserFromScreen(id)
-            AdduserToDom(userdata)
-    })
-    .catch((err) => {
-        console.log(err);
-    })
+    addExpenceList.removeChild(childnodetobedeleted);    
 }
 
